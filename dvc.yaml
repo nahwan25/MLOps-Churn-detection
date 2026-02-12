@@ -2,7 +2,7 @@ stages:
   prepare:
     cmd: python src/prepare.py
     deps:
-    - data/iris.csv
+    - data/churn.csv
     - src/prepare.py
     outs:
     - data/X_test.csv
@@ -25,5 +25,5 @@ stages:
     - model/model.joblib
     - src/evaluate.py
     metrics:
-    - metrics.json:
+    - metrics/metrics.json:
         cache: false
