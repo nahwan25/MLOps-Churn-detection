@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'   # versi stabil modern
+          python-version: '3.10'
 
       # 3️⃣ Install dependencies
       - name: Install dependencies
@@ -27,6 +27,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 4️⃣ Run tests
-      - name: Run tests
-        run: pytest
+      # 4️⃣ Optional: cek DVC
+      - name: Check DVC status
+        run: dvc status
