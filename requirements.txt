@@ -5,3 +5,6 @@ joblib
 dvc
 xgboost
 pytest
+fastapi
+uvicorn
+joblib
