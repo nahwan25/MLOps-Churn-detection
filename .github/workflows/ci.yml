@@ -2,9 +2,9 @@ name: CI DVC ML Pipeline
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -34,3 +34,5 @@ jobs:
       - name: Run DVC pipeline
         run: dvc repro
 
+      - name: Show metrics
+        run: dvc metrics show
