@@ -30,3 +30,7 @@ jobs:
       # 4️⃣ Optional: cek DVC
       - name: Check DVC status
         run: dvc status
+
+      - name: Run DVC pipeline
+        run: dvc repro
+
