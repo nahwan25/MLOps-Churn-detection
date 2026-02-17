@@ -4,7 +4,3 @@ scikit-learn
 joblib
 dvc
 xgboost
-pytest
-fastapi
-uvicorn
-imbalanced-learn

@@ -1,32 +1,51 @@
-import os, json
 import pandas as pd
+import json
 from joblib import load
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-# Load test data
-X_test = pd.read_csv("data/X_test.csv")
-y_test = pd.read_csv("data/y_test.csv").values.ravel()
 
-# Load model
-model = load("model/model.joblib")
+def load_data():
+    X_test = pd.read_csv("data/processed/X_test.csv")
+    y_test = pd.read_csv("data/processed/y_test.csv").values.ravel()
+    return X_test, y_test
 
-# Prediksi
-y_pred = model.predict(X_test)
-y_proba = model.predict_proba(X_test)[:,1] if hasattr(model, "predict_proba") else None
 
-# Hitung metrics
-metrics = {
-    "accuracy": accuracy_score(y_test, y_pred),
-    "f1": f1_score(y_test, y_pred)
-}
+def load_model():
+    model = load("model/model.joblib")
+    return model
 
-if y_proba is not None:
-    metrics["roc_auc"] = roc_auc_score(y_test, y_proba)
 
-# Simpan metrics di folder metrics/
-os.makedirs("metrics", exist_ok=True)
-output_path = os.path.join("metrics", "metrics.json")
-with open(output_path, "w") as f:
-    json.dump(metrics, f, indent=4)
+def evaluate(model, X_test, y_test):
+    y_pred = model.predict(X_test)
 
-print(f"Evaluasi selesai. Metrics disimpan di {output_path}")
+    accuracy = accuracy_score(y_test, y_pred)
+    cm = confusion_matrix(y_test, y_pred)
+    report = classification_report(y_test, y_pred)
+
+    print("Confusion Matrix:\n", cm)
+    print("\nClassification Report:\n", report)
+    print("\nAccuracy:", accuracy)
+
+    return accuracy
+
+
+def save_metrics(accuracy):
+    metrics = {
+        "accuracy": accuracy
+    }
+
+    with open("metrics.json", "w") as f:
+        json.dump(metrics, f, indent=4)
+
+    print("Metrics disimpan ke metrics.json")
+
+
+def main():
+    X_test, y_test = load_data()
+    model = load_model()
+    accuracy = evaluate(model, X_test, y_test)
+    save_metrics(accuracy)
+
+
+if __name__ == "__main__":
+    main()
